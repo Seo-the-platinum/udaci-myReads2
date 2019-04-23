@@ -36,7 +36,9 @@ handleChange= (e)=> {
     }))
   }
   BooksAPI.search(query).then(data=> {
-    data.forEach(b=> { let m= this.state.bookCase.filter(B=>{B.id === b.id})
+    data.forEach(b=> { 
+      let m= this.state.bookCase.filter(B=> B.id === b.id)
+    console.log(m)
       if(m[0]) {
         b.shelf=m[0].shelf
         console.log(b.shelf)
