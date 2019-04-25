@@ -13,14 +13,14 @@ class Book extends Component {
     console.log(e.target.value)
     const shelf= e.target.value
     const { book }= this.props
-    const { id }= this.props.book
+//    const { id }= this.props.book
     
     BooksAPI.update(book, shelf)
     .then(data=> this.props.updateBooks(book, shelf, data))
  }
 
   render() {
-    const { book, image, bookCase }= this.props
+    const { book, image }= this.props
     return(
       <div>
          <li>

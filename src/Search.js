@@ -26,25 +26,27 @@ componentDidMount() {
    )
 }
 handleChange= (e)=> {
- const query= e.target.value
- this.setState(currState=> ({
-   query: query
- }))
-  if(query==='' || query=== undefined){
+ const query= e
+ this.setState(currState=> ({query: query}))
+  if(this.state.query==='' || this.state.query=== undefined){
     this.setState(currState=> ({
-      searchedBooks: []
+      searchedBooks: [],
     }))
-  }
-  BooksAPI.search(query).then(data=> {
+ }
+
+  BooksAPI.search(this.state.query).then(data=> {
+   console.log(this.state.query)
     data.forEach(b=> { 
       let m= this.state.bookCase.filter(B=> B.id === b.id)
-    console.log(m)
+      if(this.state.query === query){
       if(m[0]) {
         b.shelf=m[0].shelf
-        console.log(b.shelf)
       } return this.setState(currState=> ({searchedBooks: data}))
-    })
+      }})
   })
+  .catch(error=> {console.log(error)
+       this.setState(currState=> ({searchedBooks: []}))
+        })
 }
     
 
@@ -65,9 +67,9 @@ updateBooks= (book, newShelf, allShelves)=> {
 }
 
 addBooks= (books)=> {
-  this.setState(currState=> {
+  this.setState(currState=> ({
    bookCase: books
-  })
+  }))
   this.sortBooks()
 }
 
@@ -97,7 +99,7 @@ sortBooks= ()=> {
             <div className="search-books-bar">
               <Link className="close-search" to='/'>Close</Link>
               <div className="search-books-input-wrapper">
-                <input type="text" placeholder="Search by title or author" value={query} onChange={this.handleChange}/>
+                <input type="text" placeholder="Search by title or author" value={query} onChange={(e)=>this.handleChange(e.target.value)}/>
               </div>
             </div>
             <div className="search-books-results">

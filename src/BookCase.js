@@ -41,9 +41,9 @@ updateBooks= (book, newShelf, allShelves)=> {
 }
 
 addBooks= (books)=> {
-  this.setState(currState=> {
+  this.setState(currState=> ({
     bookCase: books
-  })
+  }))
   this.sortBooks()
 }
 
