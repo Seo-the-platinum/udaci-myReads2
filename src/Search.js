@@ -29,8 +29,6 @@ handleChange= (e)=> {
   console.log(e)
  
  this.setState((currState)=> ({query: e.trim()}), ()=>{this.search(e)})
-  let { query }= this.state
-  
 }
 
 search= (query)=> {
@@ -38,18 +36,21 @@ search= (query)=> {
     this.setState(currState=> ({
       searchedBooks: [],
     }))}
+  else{
    BooksAPI.search(query).then(data=> {
-    
-    data.forEach(b=> { 
+     if(!data.err && data !== undefined){
+      data.forEach(b=> { 
       let m= this.state.bookCase.filter(B=> B.id === b.id)
       if(m[0]) {
         b.shelf=m[0].shelf
       } return this.setState(currState=> ({searchedBooks: data}))
-      })
+      })} else { console.log(data.err)
+        this.setState(currState=> ({searchedBooks: []}))}
   })
   .catch(error=> {console.log(error)
        this.setState(currState=> ({ searchedBooks: [] }))
-        })
+       })
+  }
 }
 /*update books takes 3 arguments, a book obj, a shelf value from the select element in the book component, and 
 the return data from the update promise. we declare newBooks and set its value to the returned array from the map method
